@@ -232,8 +232,8 @@ public class UISprite : UIBasicSprite
 		{
 			UISpriteData sp = GetAtlasSprite();
 			if (sp == null) return base.border;
-			return new Vector4(sp.borderLeft, sp.borderBottom, sp.borderRight, sp.borderTop);
-		}
+			    return new Vector4(sp.borderLeft, sp.borderBottom, sp.borderRight, sp.borderTop);
+        }
 	}
 
 	/// <summary>
@@ -335,30 +335,70 @@ public class UISprite : UIBasicSprite
 					if ((w & 1) != 0) ++padRight;
 					if ((h & 1) != 0) ++padTop;
 
-					px = (1f / w) * mWidth;
-					py = (1f / h) * mHeight;
+                    if (!rotated)
+                    {
+                        px = (1f / w) * mWidth;
+                        py = (1f / h) * mHeight;
+                    }
+                    else
+                    {
+                        px = (1f / w) * mHeight;
+                        py = (1f / h) * mWidth;
+                    }
 				}
 
-				if (mFlip == Flip.Horizontally || mFlip == Flip.Both)
+                if (mFlip == Flip.Horizontally || mFlip == Flip.Both)
 				{
-					x0 += padRight * px;
-					x1 -= padLeft * px;
+                    if (!rotated)
+                    {
+                        x0 += padRight * px;
+                        x1 -= padLeft * px;
+                    }
+                    else
+                    {
+                        x0 += padBottom * px;
+                        x1 -= padTop * px;
+                    }
 				}
 				else
 				{
-					x0 += padLeft * px;
-					x1 -= padRight * px;
+                    if (!rotated)
+                    {
+                        x0 += padLeft * px;
+                        x1 -= padRight * px;
+                    }
+                    else
+                    {
+                        x0 += padTop * px;
+                        x1 -= padBottom * px;
+                    }
 				}
 
 				if (mFlip == Flip.Vertically || mFlip == Flip.Both)
 				{
-					y0 += padTop * py;
-					y1 -= padBottom * py;
+                    if (!rotated)
+                    {
+                        y0 += padTop * py;
+                        y1 -= padBottom * py;
+                    }
+                    else
+                    {
+                        y0 += padRight * py;
+                        y1 -= padLeft * py;
+                    }
 				}
 				else
 				{
-					y0 += padBottom * py;
-					y1 -= padTop * py;
+                    if (!rotated)
+                    {
+                        y0 += padBottom * py;
+                        y1 -= padTop * py;
+                    }
+					else
+                    {
+                        y0 += padLeft * px;
+                        y1 -= padRight * px;
+                    }
 				}
 			}
 
@@ -372,8 +412,15 @@ public class UISprite : UIBasicSprite
 			float vz = Mathf.Lerp(x0 + fw, x1, mDrawRegion.z);
 			float vw = Mathf.Lerp(y0 + fh, y1, mDrawRegion.w);
 
-			return new Vector4(vx, vy, vz, vw);
-		}
+            if (rotated)
+            {
+                return new Vector4(vw, vx, vy, vz);
+            }
+            else
+            {
+                return new Vector4(vx, vy, vz, vw);
+            }
+        }
 	}
 
 	/// <summary>
@@ -429,7 +476,8 @@ public class UISprite : UIBasicSprite
 		{
 			mSprite = sp;
 			mSpriteName = mSprite.name;
-		}
+            rotated = mSprite.rotated;
+        }
 		else
 		{
 			mSpriteName = (mSprite != null) ? mSprite.name : "";
@@ -463,7 +511,14 @@ public class UISprite : UIBasicSprite
 				if ((x & 1) == 1) ++x;
 				if ((y & 1) == 1) ++y;
 
-				width = x;
+                if (mSprite != null && mSprite.rotated)
+                {
+                    int tmp = x;
+                    x = y;
+                    y = tmp;
+                }
+
+                width = x;
 				height = y;
 			}
 		}
@@ -511,7 +566,7 @@ public class UISprite : UIBasicSprite
 		Texture tex = mainTexture;
 		if (tex == null) return;
 
-		if (mSprite == null) mSprite = atlas.GetSprite(spriteName);
+		if (mSprite == null) GetAtlasSprite();
 		if (mSprite == null) return;
 
 		Rect outer = new Rect(mSprite.x, mSprite.y, mSprite.width, mSprite.height);

@@ -55,11 +55,13 @@ public abstract class UIBasicSprite : UIWidget
 	[System.NonSerialized] Rect mInnerUV = new Rect();
 	[System.NonSerialized] Rect mOuterUV = new Rect();
 
-	/// <summary>
-	/// When the sprite type is advanced, this determines whether the center is tiled or sliced.
-	/// </summary>
+    private Quaternion vertsAngle = Quaternion.Euler(0, 180, -90);
+    protected bool rotated = false;
+    /// <summary>
+    /// When the sprite type is advanced, this determines whether the center is tiled or sliced.
+    /// </summary>
 
-	public AdvancedType centerType = AdvancedType.Sliced;
+    public AdvancedType centerType = AdvancedType.Sliced;
 
 	/// <summary>
 	/// When the sprite type is advanced, this determines whether the left edge is tiled or sliced.
@@ -236,11 +238,11 @@ public abstract class UIBasicSprite : UIWidget
 		}
 	}
 
-	/// <summary>
-	/// Whether the sprite's material is using a pre-multiplied alpha shader.
-	/// </summary>
+    /// <summary>
+    /// Whether the sprite's material is using a pre-multiplied alpha shader.
+    /// </summary>
 
-	public virtual bool premultipliedAlpha { get { return false; } }
+    public virtual bool premultipliedAlpha { get { return false; } }
 
 	/// <summary>
 	/// Size of the pixel. Overwritten in the NGUI sprite to pull a value from the atlas.
@@ -274,13 +276,26 @@ public abstract class UIBasicSprite : UIWidget
 	{
 		get
 		{
-			switch (mFlip)
-			{
-				case Flip.Horizontally: return new Vector4(mOuterUV.xMax, mOuterUV.yMin, mOuterUV.xMin, mOuterUV.yMax);
-				case Flip.Vertically: return new Vector4(mOuterUV.xMin, mOuterUV.yMax, mOuterUV.xMax, mOuterUV.yMin);
-				case Flip.Both: return new Vector4(mOuterUV.xMax, mOuterUV.yMax, mOuterUV.xMin, mOuterUV.yMin);
-				default: return new Vector4(mOuterUV.xMin, mOuterUV.yMin, mOuterUV.xMax, mOuterUV.yMax);
-			}
+            if (!rotated)
+            {
+                switch (mFlip)
+                {
+                    case Flip.Horizontally: return new Vector4(mOuterUV.xMax, mOuterUV.yMin, mOuterUV.xMin, mOuterUV.yMax);
+                    case Flip.Vertically: return new Vector4(mOuterUV.xMin, mOuterUV.yMax, mOuterUV.xMax, mOuterUV.yMin);
+                    case Flip.Both: return new Vector4(mOuterUV.xMax, mOuterUV.yMax, mOuterUV.xMin, mOuterUV.yMin);
+                    default: return new Vector4(mOuterUV.xMin, mOuterUV.yMin, mOuterUV.xMax, mOuterUV.yMax);
+                }
+            }
+			else
+            {
+                switch (mFlip)
+                {
+                    case Flip.Horizontally: return new Vector4(mOuterUV.xMin, mOuterUV.yMax, mOuterUV.xMax, mOuterUV.yMin);
+                    case Flip.Vertically: return new Vector4(mOuterUV.xMax, mOuterUV.yMin, mOuterUV.xMin, mOuterUV.yMax);
+                    case Flip.Both: return new Vector4(mOuterUV.xMax, mOuterUV.yMax, mOuterUV.xMin, mOuterUV.yMin);
+                    default: return new Vector4(mOuterUV.xMin, mOuterUV.yMin, mOuterUV.xMax, mOuterUV.yMax);
+                }
+            }
 		}
 	}
 
@@ -299,42 +314,57 @@ public abstract class UIBasicSprite : UIWidget
 		}
 	}
 
-	/// <summary>
-	/// Fill the draw buffers.
-	/// </summary>
+    /// <summary>
+    /// Fill the draw buffers.
+    /// </summary>
 
 	protected void Fill (List<Vector3> verts, List<Vector2> uvs, List<Color> cols, Rect outer, Rect inner)
-	{
-		mOuterUV = outer;
-		mInnerUV = inner;
+    {
+        mOuterUV = outer;
+        mInnerUV = inner;
 
-		switch (type)
-		{
-			case Type.Simple:
-			SimpleFill(verts, uvs, cols);
-			break;
+        switch (type)
+        {
+            case Type.Simple:
+                SimpleFill(verts, uvs, cols);
+                break;
 
-			case Type.Sliced:
-			SlicedFill(verts, uvs, cols);
-			break;
+            case Type.Sliced:
+                SlicedFill(verts, uvs, cols);
+                break;
 
-			case Type.Filled:
-			FilledFill(verts, uvs, cols);
-			break;
+            case Type.Filled:
+                FilledFill(verts, uvs, cols);
+                break;
 
-			case Type.Tiled:
-			TiledFill(verts, uvs, cols);
-			break;
+            case Type.Tiled:
+                TiledFill(verts, uvs, cols);
+                break;
 
-			case Type.Advanced:
-			AdvancedFill(verts, uvs, cols);
-			break;
-		}
-	}
+            case Type.Advanced:
+                AdvancedFill(verts, uvs, cols);
+                break;
+        }
 
-	/// <summary>
-	/// Regular sprite fill function is quite simple.
-	/// </summary>
+        if (rotated)
+        {
+            Vector4 v = drawingDimensions;
+            float centerX = v.x + v.z;
+            float centerY = v.y + v.w;
+
+            for (int i = 0; i < verts.Count; i++)
+            {
+                Vector3 vert = vertsAngle * verts[i];
+                vert.x += centerY;
+                vert.y += centerX;
+                verts[i] = vert;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Regular sprite fill function is quite simple.
+    /// </summary>
 
 	void SimpleFill (List<Vector3> verts, List<Vector2> uvs, List<Color> cols)
 	{
@@ -390,49 +420,72 @@ public abstract class UIBasicSprite : UIWidget
 		mTempPos[3].x = v.z;
 		mTempPos[3].y = v.w;
 
-		if (mFlip == Flip.Horizontally || mFlip == Flip.Both)
-		{
-			mTempPos[1].x = mTempPos[0].x + br.z;
-			mTempPos[2].x = mTempPos[3].x - br.x;
+        Flip curFlip = mFlip;
+        if (rotated)
+        {
+            if (mFlip == Flip.Horizontally) curFlip = Flip.Vertically;
+            else if (mFlip == Flip.Vertically) curFlip = Flip.Horizontally;
+        }
 
-			mTempUVs[3].x = mOuterUV.xMin;
+		if (curFlip == Flip.Horizontally || curFlip == Flip.Both)
+		{
+            if (!rotated)
+            {
+                mTempPos[1].x = mTempPos[0].x + br.z;
+                mTempPos[2].x = mTempPos[3].x - br.x;
+            }
+            else
+            {
+                mTempPos[1].x = mTempPos[0].x - br.z;
+                mTempPos[2].x = mTempPos[3].x + br.x;
+            }
+
+            mTempUVs[3].x = mOuterUV.xMin;
 			mTempUVs[2].x = mInnerUV.xMin;
 			mTempUVs[1].x = mInnerUV.xMax;
 			mTempUVs[0].x = mOuterUV.xMax;
 		}
 		else
 		{
-			mTempPos[1].x = mTempPos[0].x + br.x;
-			mTempPos[2].x = mTempPos[3].x - br.z;
+            if (!rotated)
+            {
+                mTempPos[1].x = mTempPos[0].x + br.x;
+                mTempPos[2].x = mTempPos[3].x - br.z;
+            }
+            else
+            {
+                mTempPos[1].x = mTempPos[0].x - br.x;
+                mTempPos[2].x = mTempPos[3].x + br.z;
+            }
 
-			mTempUVs[0].x = mOuterUV.xMin;
-			mTempUVs[1].x = mInnerUV.xMin;
-			mTempUVs[2].x = mInnerUV.xMax;
-			mTempUVs[3].x = mOuterUV.xMax;
+            mTempUVs[0].x = mOuterUV.xMin;
+            mTempUVs[1].x = mInnerUV.xMin;
+            mTempUVs[2].x = mInnerUV.xMax;
+            mTempUVs[3].x = mOuterUV.xMax;
 		}
 
-		if (mFlip == Flip.Vertically || mFlip == Flip.Both)
+		if (curFlip == Flip.Vertically || curFlip == Flip.Both)
 		{
-			mTempPos[1].y = mTempPos[0].y + br.w;
-			mTempPos[2].y = mTempPos[3].y - br.y;
+            mTempPos[1].y = mTempPos[0].y + br.w;
+            mTempPos[2].y = mTempPos[3].y - br.y;
 
-			mTempUVs[3].y = mOuterUV.yMin;
+            mTempUVs[3].y = mOuterUV.yMin;
 			mTempUVs[2].y = mInnerUV.yMin;
 			mTempUVs[1].y = mInnerUV.yMax;
 			mTempUVs[0].y = mOuterUV.yMax;
 		}
 		else
 		{
-			mTempPos[1].y = mTempPos[0].y + br.y;
-			mTempPos[2].y = mTempPos[3].y - br.w;
+            mTempPos[1].y = mTempPos[0].y + br.y;
+            mTempPos[2].y = mTempPos[3].y - br.w;
 
-			mTempUVs[0].y = mOuterUV.yMin;
-			mTempUVs[1].y = mInnerUV.yMin;
-			mTempUVs[2].y = mInnerUV.yMax;
-			mTempUVs[3].y = mOuterUV.yMax;
+            mTempUVs[0].y = mOuterUV.yMin;
+            mTempUVs[1].y = mInnerUV.yMin;
+            mTempUVs[2].y = mInnerUV.yMax;
+            mTempUVs[3].y = mOuterUV.yMax;
 		}
 
-		for (int x = 0; x < 3; ++x)
+        for (int x = 0; x < 3; ++x)
 		{
 			int x2 = x + 1;
 
@@ -468,7 +521,7 @@ public abstract class UIBasicSprite : UIWidget
 				}
 			}
 		}
-	}
+    }
 	
 	/// <summary>
 	/// Adds a gradient-based vertex color to the sprite.

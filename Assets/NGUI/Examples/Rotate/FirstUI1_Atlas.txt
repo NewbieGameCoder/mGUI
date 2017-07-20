@@ -1,0 +1,188 @@
+{"frames": {
+
+"4.png":
+{
+	"frame": {"x":278,"y":355,"w":38,"h":38},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":38},
+	"sourceSize": {"w":38,"h":38}
+},
+"Baseboard_Common.png":
+{
+	"frame": {"x":339,"y":177,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"Bookmark_Nomal1.png":
+{
+	"frame": {"x":92,"y":491,"w":118,"h":14},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":118,"h":14},
+	"sourceSize": {"w":121,"h":114}
+},
+"Bookmark_Select1.png":
+{
+	"frame": {"x":71,"y":237,"w":121,"h":114},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":121,"h":114},
+	"sourceSize": {"w":121,"h":114}
+},
+"Btn_Return.png":
+{
+	"frame": {"x":186,"y":237,"w":113,"h":91},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":113,"h":91},
+	"sourceSize": {"w":113,"h":91}
+},
+"Icon_Point_Normal.png":
+{
+	"frame": {"x":491,"y":413,"w":19,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":18},
+	"sourceSize": {"w":19,"h":18}
+},
+"Icon_Point_Select.png":
+{
+	"frame": {"x":466,"y":413,"w":24,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":24,"h":24},
+	"sourceSize": {"w":27,"h":26}
+},
+"RoleBaseboard.png":
+{
+	"frame": {"x":0,"y":0,"w":371,"h":112},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":371,"h":112},
+	"sourceSize": {"w":371,"h":112}
+},
+"icon_beibao_01.png":
+{
+	"frame": {"x":225,"y":351,"w":52,"h":52},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":52},
+	"sourceSize": {"w":52,"h":52}
+},
+"ui_FirstUI_01.png":
+{
+	"frame": {"x":372,"y":0,"w":439,"h":93},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":439,"h":93},
+	"sourceSize": {"w":439,"h":93}
+},
+"ui_FirstUI_02.png":
+{
+	"frame": {"x":278,"y":311,"w":43,"h":69},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":69},
+	"sourceSize": {"w":43,"h":69}
+},
+"ui_FirstUI_03.png":
+{
+	"frame": {"x":466,"y":251,"w":161,"h":33},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":161,"h":33},
+	"sourceSize": {"w":161,"h":33}
+},
+"ui_FirstUI_04.png":
+{
+	"frame": {"x":278,"y":237,"w":73,"h":59},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":73,"h":59},
+	"sourceSize": {"w":73,"h":59}
+},
+"ui_FirstUI_05.png":
+{
+	"frame": {"x":71,"y":359,"w":86,"h":71},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":71},
+	"sourceSize": {"w":86,"h":71}
+},
+"ui_FirstUI_06.png":
+{
+	"frame": {"x":0,"y":440,"w":50,"h":512},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":512},
+	"sourceSize": {"w":50,"h":512}
+},
+"ui_FirstUI_09.png":
+{
+	"frame": {"x":466,"y":0,"w":250,"h":44},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":250,"h":44},
+	"sourceSize": {"w":250,"h":44}
+},
+"ui_FirstUI_12.png":
+{
+	"frame": {"x":0,"y":491,"w":19,"h":91},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":91},
+	"sourceSize": {"w":19,"h":91}
+},
+"ui_FisrtUI_14.png":
+{
+	"frame": {"x":0,"y":177,"w":70,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":256},
+	"sourceSize": {"w":70,"h":256}
+},
+"ui_SecondUI_06.png":
+{
+	"frame": {"x":71,"y":177,"w":267,"h":59},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":267,"h":59},
+	"sourceSize": {"w":267,"h":59}
+},
+"ui_beibao_02.png":
+{
+	"frame": {"x":0,"y":113,"w":358,"h":63},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":358,"h":63},
+	"sourceSize": {"w":358,"h":63}
+},
+"ui_beibao_04.png":
+{
+	"frame": {"x":339,"y":210,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"ui_beibao_14 (2).png":
+{
+	"frame": {"x":158,"y":359,"w":66,"h":67},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":67},
+	"sourceSize": {"w":66,"h":67}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "FirstUI1_Atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:58f844f966a3d16f4b04e6a502f49bcd:7a6c192aa68b50941f2f8b6e07fb55a6:6a6c0f3366b14a17d4232b706a3ee994$"
+}
+}

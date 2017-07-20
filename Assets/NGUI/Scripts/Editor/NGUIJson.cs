@@ -20,29 +20,29 @@ using System.IO;
 
 public class NGUIJson
 {
-	private const int TOKEN_NONE = 0;
-	private const int TOKEN_CURLY_OPEN = 1;
-	private const int TOKEN_CURLY_CLOSE = 2;
-	private const int TOKEN_SQUARED_OPEN = 3;
-	private const int TOKEN_SQUARED_CLOSE = 4;
-	private const int TOKEN_COLON = 5;
-	private const int TOKEN_COMMA = 6;
-	private const int TOKEN_STRING = 7;
-	private const int TOKEN_NUMBER = 8;
-	private const int TOKEN_TRUE = 9;
-	private const int TOKEN_FALSE = 10;
-	private const int TOKEN_NULL = 11;
-	private const int BUILDER_CAPACITY = 2000;
+    private const int TOKEN_NONE = 0;
+    private const int TOKEN_CURLY_OPEN = 1;
+    private const int TOKEN_CURLY_CLOSE = 2;
+    private const int TOKEN_SQUARED_OPEN = 3;
+    private const int TOKEN_SQUARED_CLOSE = 4;
+    private const int TOKEN_COLON = 5;
+    private const int TOKEN_COMMA = 6;
+    private const int TOKEN_STRING = 7;
+    private const int TOKEN_NUMBER = 8;
+    private const int TOKEN_TRUE = 9;
+    private const int TOKEN_FALSE = 10;
+    private const int TOKEN_NULL = 11;
+    private const int BUILDER_CAPACITY = 2000;
 
-	/// <summary>
-	/// On decoding, this value holds the position at which the parse failed (-1 = no error).
-	/// </summary>
-	protected static int lastErrorIndex = -1;
-	protected static string lastDecode = "";
+    /// <summary>
+    /// On decoding, this value holds the position at which the parse failed (-1 = no error).
+    /// </summary>
+    protected static int lastErrorIndex = -1;
+    protected static string lastDecode = "";
 
-	/// <summary>
-	/// Parse the specified JSon file, loading sprite information for the specified atlas.
-	/// </summary>
+    /// <summary>
+    /// Parse the specified JSon file, loading sprite information for the specified atlas.
+    /// </summary>
 
 	static public void LoadSpriteData (UIAtlas atlas, TextAsset asset)
 	{
@@ -162,20 +162,39 @@ public class NGUIJson
 			}
 
 			// If the sprite was present before, see if we can copy its inner rect
-			foreach (UISpriteData oldSprite in oldSprites)
-			{
-				if (oldSprite.name.Equals(newSprite.name, StringComparison.OrdinalIgnoreCase))
-				{
-					newSprite.borderLeft = oldSprite.borderLeft;
-					newSprite.borderRight = oldSprite.borderRight;
-					newSprite.borderBottom = oldSprite.borderBottom;
-					newSprite.borderTop = oldSprite.borderTop;
-				}
-			}
+            foreach (UISpriteData oldSprite in oldSprites)
+            {
+                if (oldSprite.name.Equals(newSprite.name, StringComparison.OrdinalIgnoreCase))
+                {
+                    newSprite.borderLeft = oldSprite.borderLeft;
+                    newSprite.borderRight = oldSprite.borderRight;
+                    newSprite.borderBottom = oldSprite.borderBottom;
+                    newSprite.borderTop = oldSprite.borderTop;
+                }
+            }
 
-			// Add this new sprite
-			atlas.spriteList.Add(newSprite);
-		}
+            if (newSprite.rotated)
+            {
+                int temp = newSprite.width;
+                newSprite.width = newSprite.height;
+                newSprite.height = temp;
+
+                temp = newSprite.paddingLeft;
+                newSprite.paddingLeft = newSprite.paddingBottom;
+                newSprite.paddingBottom = newSprite.paddingRight;
+                newSprite.paddingRight = newSprite.paddingTop;
+                newSprite.paddingTop = temp;
+
+                temp = newSprite.borderLeft;
+                newSprite.borderLeft = newSprite.borderBottom;
+                newSprite.borderBottom = newSprite.borderRight;
+                newSprite.borderRight = newSprite.borderTop;
+                newSprite.borderTop = temp;
+            }
+
+            // Add this new sprite  
+            atlas.spriteList.Add(newSprite);
+        }
 
 		// Sort imported sprites alphabetically
 		atlas.spriteList.Sort(CompareSprites);

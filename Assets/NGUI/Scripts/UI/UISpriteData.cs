@@ -26,7 +26,7 @@ public class UISpriteData
 	public int paddingTop = 0;
 	public int paddingBottom = 0;
 
-	//bool rotated = false;
+	public bool rotated = false;
 
 	/// <summary>
 	/// Whether the sprite has a border.
