@@ -642,14 +642,26 @@ public abstract class UIBasicSprite : UIWidget
 		Vector4 u = drawingUVs;
 		Color c = drawingColor;
 
-		// Horizontal and vertical filled sprites are simple -- just end the sprite prematurely
-		if (mFillDirection == FillDirection.Horizontal || mFillDirection == FillDirection.Vertical)
+        FillDirection curFillDir = mFillDirection;
+        bool bCurInvertState = mInvert;
+        if (rotated)
+        {
+            if (mFillDirection == FillDirection.Horizontal) curFillDir = FillDirection.Vertical;
+            else if (mFillDirection == FillDirection.Vertical)
+            {
+                curFillDir = FillDirection.Horizontal;
+                bCurInvertState = !bCurInvertState;
+            }
+        }
+
+        // Horizontal and vertical filled sprites are simple -- just end the sprite prematurely
+        if (curFillDir == FillDirection.Horizontal || curFillDir == FillDirection.Vertical)
 		{
-			if (mFillDirection == FillDirection.Horizontal)
+			if (curFillDir == FillDirection.Horizontal)
 			{
 				float fill = (u.z - u.x) * mFillAmount;
 
-				if (mInvert)
+				if (bCurInvertState)
 				{
 					v.x = v.z - (v.z - v.x) * mFillAmount;
 					u.x = u.z - fill;
@@ -660,11 +672,11 @@ public abstract class UIBasicSprite : UIWidget
 					u.z = u.x + fill;
 				}
 			}
-			else if (mFillDirection == FillDirection.Vertical)
+			else if (curFillDir == FillDirection.Vertical)
 			{
 				float fill = (u.w - u.y) * mFillAmount;
 
-				if (mInvert)
+				if (bCurInvertState)
 				{
 					v.y = v.w - (v.w - v.y) * mFillAmount;
 					u.y = u.w - fill;
