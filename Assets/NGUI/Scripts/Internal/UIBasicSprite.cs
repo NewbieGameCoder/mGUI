@@ -646,12 +646,12 @@ public abstract class UIBasicSprite : UIWidget
         bool bCurInvertState = mInvert;
         if (rotated)
         {
-            if (mFillDirection == FillDirection.Horizontal) curFillDir = FillDirection.Vertical;
-            else if (mFillDirection == FillDirection.Vertical)
+            if (mFillDirection == FillDirection.Horizontal)
             {
-                curFillDir = FillDirection.Horizontal;
+                curFillDir = FillDirection.Vertical;
                 bCurInvertState = !bCurInvertState;
             }
+            else if (mFillDirection == FillDirection.Vertical) curFillDir = FillDirection.Horizontal;
         }
 
         // Horizontal and vertical filled sprites are simple -- just end the sprite prematurely
