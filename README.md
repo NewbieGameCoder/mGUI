@@ -1,4 +1,4 @@
-simple、slice类型的Texture Packer打出来的UISprite的旋转图集支持（Filed、Tiled未测试）
+simple、slice、Filled（Horizontal、Vertical）类型的Texture Packer打出来的UISprite的旋转图集支持（Tiled未测试。Filled 90 180 360 fill不支持）
 
 参考链接：<br />
   1、 http://www.maosongliang.com/archives/324 <br />
