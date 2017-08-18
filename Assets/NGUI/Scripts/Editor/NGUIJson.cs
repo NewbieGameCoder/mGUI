@@ -164,7 +164,7 @@ public class NGUIJson
 			// If the sprite was present before, see if we can copy its inner rect
             foreach (UISpriteData oldSprite in oldSprites)
             {
-                if (oldSprite.name.Equals(newSprite.name, StringComparison.OrdinalIgnoreCase))
+                if (!oldSprite.rotated && oldSprite.name.Equals(newSprite.name, StringComparison.OrdinalIgnoreCase))
                 {
                     newSprite.borderLeft = oldSprite.borderLeft;
                     newSprite.borderRight = oldSprite.borderRight;
