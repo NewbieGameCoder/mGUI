@@ -161,15 +161,25 @@ public class NGUIJson
 				}
 			}
 
-			// If the sprite was present before, see if we can copy its inner rect
+            // If the sprite was present before, see if we can copy its inner rect  
             foreach (UISpriteData oldSprite in oldSprites)
             {
-                if (!oldSprite.rotated && oldSprite.name.Equals(newSprite.name, StringComparison.OrdinalIgnoreCase))
+                if (oldSprite.hasBorder && oldSprite.name.Equals(newSprite.name, StringComparison.OrdinalIgnoreCase))
                 {
-                    newSprite.borderLeft = oldSprite.borderLeft;
-                    newSprite.borderRight = oldSprite.borderRight;
-                    newSprite.borderBottom = oldSprite.borderBottom;
-                    newSprite.borderTop = oldSprite.borderTop;
+                    if (oldSprite.rotated)
+                    {
+                        newSprite.borderLeft = oldSprite.borderTop;
+                        newSprite.borderRight = oldSprite.borderBottom;
+                        newSprite.borderBottom = oldSprite.borderLeft;
+                        newSprite.borderTop = oldSprite.borderRight;
+                    }
+                    else
+                    {
+                        newSprite.borderLeft = oldSprite.borderLeft;
+                        newSprite.borderRight = oldSprite.borderRight;
+                        newSprite.borderBottom = oldSprite.borderBottom;
+                        newSprite.borderTop = oldSprite.borderTop;
+                    }
                 }
             }
 
