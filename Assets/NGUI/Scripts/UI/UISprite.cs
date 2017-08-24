@@ -248,22 +248,26 @@ public class UISprite : UIBasicSprite
 
 	override public int minWidth
 	{
-		get
-		{
-			if (type == Type.Sliced || type == Type.Advanced)
-			{
-				float ps = pixelSize;
-				Vector4 b = border * pixelSize;
-				int min = Mathf.RoundToInt(b.x + b.z);
+        get
+        {
+            if (type == Type.Sliced || type == Type.Advanced)
+            {
+                float ps = pixelSize;
+                Vector4 b = border * pixelSize;
+                int min = rotated ? Mathf.RoundToInt(b.y + b.w) : Mathf.RoundToInt(b.x + b.z);
 
-				UISpriteData sp = GetAtlasSprite();
-				if (sp != null) min += Mathf.RoundToInt(ps * (sp.paddingLeft + sp.paddingRight));
+                UISpriteData sp = GetAtlasSprite();
+                if (sp != null)
+                {
+                    if (rotated) min += Mathf.RoundToInt(ps * (sp.paddingTop + sp.paddingBottom));
+                    else min += Mathf.RoundToInt(ps * (sp.paddingLeft + sp.paddingRight));
+                }
 
-				return Mathf.Max(base.minWidth, ((min & 1) == 1) ? min + 1 : min);
-			}
-			return base.minWidth;
-		}
-	}
+                return Mathf.Max(base.minWidth, ((min & 1) == 1) ? min + 1 : min);
+            }
+            return base.minWidth;
+        }
+    }
 
 	/// <summary>
 	/// Minimum allowed height for this widget.
@@ -271,22 +275,26 @@ public class UISprite : UIBasicSprite
 
 	override public int minHeight
 	{
-		get
-		{
-			if (type == Type.Sliced || type == Type.Advanced)
-			{
-				float ps = pixelSize;
-				Vector4 b = border * pixelSize;
-				int min = Mathf.RoundToInt(b.y + b.w);
+        get
+        {
+            if (type == Type.Sliced || type == Type.Advanced)
+            {
+                float ps = pixelSize;
+                Vector4 b = border * pixelSize;
+                int min = rotated ? Mathf.RoundToInt(b.x + b.z) : Mathf.RoundToInt(b.y + b.w);
 
-				UISpriteData sp = GetAtlasSprite();
-				if (sp != null) min += Mathf.RoundToInt(ps * (sp.paddingTop + sp.paddingBottom));
+                UISpriteData sp = GetAtlasSprite();
+                if (sp != null)
+                {
+                    if (rotated) min += Mathf.RoundToInt(ps * (sp.paddingLeft + sp.paddingRight));
+                    else min += Mathf.RoundToInt(ps * (sp.paddingTop + sp.paddingBottom));
+                }
 
-				return Mathf.Max(base.minHeight, ((min & 1) == 1) ? min + 1 : min);
-			}
-			return base.minHeight;
-		}
-	}
+                return Mathf.Max(base.minHeight, ((min & 1) == 1) ? min + 1 : min);
+            }
+            return base.minHeight;
+        }
+    }
 
 	/// <summary>
 	/// Sprite's dimensions used for drawing. X = left, Y = bottom, Z = right, W = top.

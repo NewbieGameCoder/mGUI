@@ -175,17 +175,17 @@ public abstract class UIBasicSprite : UIWidget
 
 	override public int minWidth
 	{
-		get
-		{
-			if (type == Type.Sliced || type == Type.Advanced)
-			{
-				Vector4 b = border * pixelSize;
-				int min = Mathf.RoundToInt(b.x + b.z);
-				return Mathf.Max(base.minWidth, ((min & 1) == 1) ? min + 1 : min);
-			}
-			return base.minWidth;
-		}
-	}
+        get
+        {
+            if (type == Type.Sliced || type == Type.Advanced)
+            {
+                Vector4 b = border * pixelSize;
+                int min = rotated ? Mathf.RoundToInt(b.y + b.w) : Mathf.RoundToInt(b.x + b.z);
+                return Mathf.Max(base.minWidth, ((min & 1) == 1) ? min + 1 : min);
+            }
+            return base.minWidth;
+        }
+    }
 
 	/// <summary>
 	/// Minimum allowed height for this widget.
@@ -193,17 +193,17 @@ public abstract class UIBasicSprite : UIWidget
 
 	override public int minHeight
 	{
-		get
-		{
-			if (type == Type.Sliced || type == Type.Advanced)
-			{
-				Vector4 b = border * pixelSize;
-				int min = Mathf.RoundToInt(b.y + b.w);
-				return Mathf.Max(base.minHeight, ((min & 1) == 1) ? min + 1 : min);
-			}
-			return base.minHeight;
-		}
-	}
+        get
+        {
+            if (type == Type.Sliced || type == Type.Advanced)
+            {
+                Vector4 b = border * pixelSize;
+                int min = rotated ? Mathf.RoundToInt(b.x + b.z) : Mathf.RoundToInt(b.y + b.w);
+                return Mathf.Max(base.minHeight, ((min & 1) == 1) ? min + 1 : min);
+            }
+            return base.minHeight;
+        }
+    }
 
 	/// <summary>
 	/// Whether the sprite should be filled in the opposite direction.
